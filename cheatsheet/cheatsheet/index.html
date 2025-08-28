@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    background-color: #ffffff;
+}
+
+body {
+    color: #FFFFFF;
+}
+
+p {
+ font-size: 14px;
+ margin-left: 20px;
+ font-family: Arial, Helvetica, sans-serif;
+}
+
+.tfheader {
+  background-color: #844fba;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family: metro-web,Metro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.tfheader:hover {
+  background-color: #5d3881;
+}
+
+.tfsubmenu {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+.tfsubheader {
+  background-color: #844fba;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family: metro-web,Metro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.tfsubheader:hover {
+  background-color: #5d3881;
+}
+
+.collapse.in.tf {
+  background-color: #d5c3e8;
+  color: #000000
+}
+
+.collapse.in.git {
+  background-color: #ffb752;
+  color: #000000
+}
+
+.collapse.in.ans {
+  background-color: #FAB6B6;
+  color: #000000
+}
+
+.githeader {
+  background-color: #FC6D26;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family: metro-web,Metro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.githeader:hover {
+  background-color: #d85d1f;
+}
+
+.gitsubmenu {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+.gitsubheader {
+  background-color: #FC6D26;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family: metro-web,Metro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.gitsubheader:hover {
+  background-color: #d85d1f;
+}
+
+.gitcontent {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #FCA326;
+  color: #000000
+}
+
+.ansibleheader {
+  background-color: #EE0000;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family: metro-web,Metro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.ansibleheader:hover {
+  background-color: #BE0000;
+}
+
+.ansiblesubmenu {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+.ansiblesubheader {
+  background-color: #EE0000;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px solid;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-family: metro-web,Metro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+}
+
+.ansiblesubheader:hover {
+  background-color: #BE0000;
+}
+
+.ansiblecontent {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #FAB6B6;
+  color: #000000
+}
+
+.code {
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  text-indent: 30px;
+}
+
+.title {
+  font-size: 48px;
+  line-height: 60px;
+  font-family: "GT Walsheim Pro",sans-serif;
+  font-weight: 700;
+  color: #000000
+}
+
+.controls {
+ text-align: right;
+ margin-bottom: 1em;
+}
+</style>
+</head>
+<body>
+<div class="title">Commands Cheat Sheet</div>
+<button type="button" class="tfheader"><img src="terraform.png" width="75" height="75">Basic Terraform Commands</button>
+<div class="collapse in tf" class="tfsubheader" style="display:block">
+    <button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Initialise the project. The first command run on a Terraform directory</button>
+    <div class="collapse in tf" style="display:block" style="display:block">
+      <p>Initializing Terraform creates the .terraform directory. Inside this directory it will place any providers and modules you have used. The lock file will also be created that defines the version of the modules and providers that were downloaded.</p>
+      <p class="code ">terraform init</p>
+    </div>
+    <button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Get the Terraform version</button>
+<div class="collapse in tf" style="display:block">
+  <p></p>
+  <p class="code">terraform version</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Setup terraform cli auto-complete (needs a restart of your session)</button>
+<div class="collapse in tf" style="display:block">
+  <p>Allows for tab completion of commands via ssh connections. Makes life a bit easier as you type.</p>
+  <p class="code">terraform -install-autocomplete</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Format all files in the project to HCL standard</button>
+<div class="collapse in tf" style="display:block">
+  <p>Does all your formatting/indenting for you. Runs on ALL terraform files in the directory, so it sorts everything on one easy step.</p>
+  <p class="code">terraform fmt</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Validate the code syntax</button>
+<div class="collapse in tf" style="display:block">
+  <p>Does not confirm your code will WORK, but checks your SYNTAX for errors</p>
+  <p class="code">terraform validate</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Generate a plan</button>
+<div class="collapse in tf" style="display:block">
+  <p>Shows what Terraform will do if you run this code. Can be output to a file to be used in a future apply</p>
+  <p class="code">terraform plan                            terraform plan -out=tfplan.out </p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Apply the current code to your configuration</button>
+<div class="collapse in tf" style="display:block">
+  <p>Can be run to apply the current config, or be used to apply an existing plan file</p>
+  <p class="code">terraform apply                           terraform apply tfplan.out</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Show all outputs as defined in your code</button>
+<div class="collapse in tf" style="display:block">
+  <p>Any output defined in your code will be listed, and its value, with the exception of anything that either you or Terraform have marked as sensitive. Anything sensitive with just show &lt;sensitive value&gt;</p>
+  <p class="code">terraform output</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Destroy everything created by this project</button>
+<div class="collapse in tf" style="display:block">
+  <p>Destroys everything you have built with this project, it will not destroy anything related to it that was not created by or imported into it.</p>
+  <p class="code">terraform destroy</p>
+</div>
+</div>
+
+<br><br>
+
+<button type="button" class="tfheader"><img src="terraform.png" width="75" height="75">Advanced Terraform Commands</button>
+<div class="collapse in tf" style="display:block">
+  <button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Initialise the project, and upgrade all modules and providers to the latest version</button>
+<div class="collapse in tf" style="display:block">
+    <p>Module and Provider versions are locked by the terraform.lock.hcl file. To update any modules, or providers you need to run this command. Without it the project will always run with the versions that were present when the first init was performed.</p>
+  <p class="code">terraform init -upgrade</p>
+</div>
+  <button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Apply only a specified resource</button>
+  <div class="collapse in tf" style="display:block">
+    <p>Should only be used sparingly, not a "day to day" use command, mainly to be used when troubleshooting if a set resource is having issues deploying.</p>
+  <p class="code">terraform apply -target=azurerm_resource_group.something</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Destroy only a specified resource</button>
+  <div class="collapse in tf" style="display:block">
+    <p>Should only be used sparingly, not a "day to day" use command, mainly to be used when troubleshooting if a set resource is having issues deploying.</p>
+  <p class="code">terraform destroy -target=azurerm_resource_group.something</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> List all resources managed by Terraform State</button>
+<div class="collapse in tf" style="display:block">
+  <p>Shows all the resources currently in the state file. Can be used to confirm that a resource has been created, or to get the resource reference name to be used in a state show, or state rm command</p>
+<p class="code">terraform state list</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Show all data stored in state for a specific resource</button>
+<div class="collapse in tf" style="display:block">
+  <p>Shows all settings for a specific resource stored in state. Can also be used after an import to get 99% of the code you need for a resource (just remove the id field usually)</p>
+<p class="code">terraform state show azurerm_resource_group.something</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Import an existing resource that was not deployed by Terraform</button>
+<div class="collapse in tf" style="display:block">
+  <p>Most resources that you can create with Terraform, you can also import. The majority of import commands are import followed by the resource reference name, then the Azure resource ID (as below). Some do have custom id refences perhaps id|someotherid. To confirm which is which check terraform.io and at the bottom of the page for the resource you will find the import syntax</p>
+<p class="code">terraform import azurerm_resource_group.example /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Update all modules and providers in a project</button>
+<div class="collapse in tf" style="display:block">
+  <p>Much like the init -upgrade command, it updates all the modules and providers in a project, and updates the lock file to the new versions downloaded.</p>
+<p class="code">terraform get -update=true</p>
+</div>
+<button type="button" class="tfsubheader"><img src="terraform.png" width="12" height="12"> Check if a variable declaration is working</button>
+<div class="collapse in tf" style="display:block">
+  <p>You can echo to the Terraform console to see if your variables are getting the right values. Its quicker than the alternative, which would be creating an output to see if you see what you expect. Think of it like doing a "Write-Host" in Powershell to make sure your variable is right.</p>
+<p class="code">echo 'join(",",["foo","bar"])' | terraform console</p>
+</div>
+</div>
+<br><br>
+
+<button type="button" class="githeader"><img src="Gitlab.png" width="75" height="75">Git Commands</button>
+<div class="collapse in git" style="display:block">
+  <button type="button" class="gitsubheader"><img src="Gitlab.png" width="12" height="12"> Initial config to allow you to push files to a repository</button>
+<div class="collapse in git" style="display:block">
+  <p>Without running the two below commands you will not be able to perform your first ever commit. The commands below are a one and done setup. If you forget to do them, you do get an error telling you what commands to run</p>
+  <p class="code">git config --global user.name "FirstName LastName"</p>
+  <p class="code">git config --global user.email "you@email.address"</p>
+</div>
+<button type="button" class="gitsubheader"><img src="Gitlab.png" width="12" height="12"> Download a local copy of a repository to work on</button>
+<div class="collapse in git" style="display:block">
+  <p>When looking at a project within GitLab, select the Clone button and select the "Clone with SSH" option to get the path for the clone command</p>
+  <p class="code">git clone git@git.dla.com:azure-migration/landing-zone/infrastructure/diag-storage-accounts.git</p>
+</div>
+<button type="button" class="gitsubheader"><img src="Gitlab.png" width="12" height="12"> Download the latest version of the project from GitLab</button>
+<div class="collapse in git" style="display:block">
+  <p>When working on a project, something may have changed since you last looked at it, and so your local copy could be out of date. Doing a pull gets the latest version, and should be done regularly to make sure you have the latest copy.</p>
+  <p class="code">git pull</p>
+</div>
+<button type="button" class="gitsubheader"><img src="Gitlab.png" width="12" height="12"> Create a branch to work on updates</button>
+<div class="collapse in git" style="display:block">
+  <p>When working on a project, you shouldnt work on the master branch. Any updates you do should be worked on in a short lived branch that contains your updates. The branch name should be descriptive, and not something like "branch". This will then be merged with the main branch once you are happy that it is ready.</p>
+  <p class="code">git checkout -b &lt;branch_name&gt;</p>
+</div>
+<button type="button" class="gitsubheader"><img src="Gitlab.png" width="12" height="12"> Commit changes to the project</button>
+<div class="collapse in git" style="display:block">
+  <p>This adds a commit point to the project. Note this DOES NOT upload these changes to GitLab, and is still a local copy until a "push" is run</p>
+  <p class="code">git commit -m "Some useful comment"</p>
+</div>
+<button type="button" class="gitsubheader"><img src="Gitlab.png" width="12" height="12"> Upload commits to GitLab to be accessible by other people</button>
+<div class="collapse in git" style="display:block">
+  <p>Takes all local commits and uploads them into the GitLab repository.</p>
+  <p class="code">git push</p>
+</div>
+</div>
+
+<br><br>
+
+<button type="button" class="ansibleheader"><img src="ansible.png" width="75" height="75">Ansible Commands</button>
+<div class="collapse in ans" style="display:block">
+  <button type="button" class="ansiblesubheader"><img src="ansible.png" width="14" height="14"> Run a playbook against a defined set of servers</button>
+<div class="collapse in ans" style="display:block">
+  <p>Your playbook will contain the commands/config that you wish to apply. The hosts.yml file will contain a list of the servers to apply it too</p>
+  <p class="code">ansible-playbook playbook.yml -i hosts.yml</p>
+</div>
+</div>
+
+
+<script>
+var coll = document.getElementsByClassName("tfheader");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
+
+<script>
+    var coll = document.getElementsByClassName("tfsubheader");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+    </script>
+
+<script>
+    var coll = document.getElementsByClassName("githeader");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+    </script>
+
+<script>
+    var coll = document.getElementsByClassName("gitsubheader");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+    </script>
+
+<script>
+  var coll = document.getElementsByClassName("ansibleheader");
+  var i;
+  
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
+  </script>
+
+<script>
+  var coll = document.getElementsByClassName("ansiblesubheader");
+  var i;
+  
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
+  </script>
+
+</body>
+</html>

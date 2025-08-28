@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevOps - TL;DR</title>
+  <meta name="description" content="A super-simple, static site that presents DevOps & IaC topics with TL;DR summaries and expandable deep dives." />
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="title">
+        <h1>DevOps - TL;DR</h1>
+        <span class="badge">Kev Demo</span>
+      </div>
+      <div class="toolbar" role="region" aria-label="Page controls">
+        <div class="search" role="search">
+          <input id="q" type="search" placeholder="Search topics, tags, or text… (e.g. Terraform, pipelines, Azure)" autocomplete="off" />
+        </div>
+        <button class="btn" id="expandAll" type="button" aria-pressed="false">Expand all</button>
+        <button class="btn" id="collapseAll" type="button">Collapse all</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid" id="cards">
+
+      <!-- CARD: DevOps Overview -->
+      <article class="card" data-tags="devops culture automation lean metrics cloud">
+        <h2>DevOps (Overview)</h2>
+        <div class="tags">
+          <span class="tag">culture</span><span class="tag">automation</span><span class="tag">metrics</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> DevOps is a way of working that tightens the loop between building and running software—optimize the system, not the silos.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>DevOps blends culture, practices, and tooling to increase flow (from idea → value), improve feedback, and build continual learning. Core practices include trunk-based development, CI/CD, automated testing, infrastructure as code, observability, and blameless postmortems.</p>
+          <ul>
+            <li><strong>Outcomes:</strong> shorter lead time, higher deployment frequency, lower change-failure rate, faster MTTR.</li>
+            <li><strong>Start small:</strong> one product team, value stream mapping, remove the top 1–2 bottlenecks, measure, repeat.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- CARD: IaC Overview -->
+      <article class="card" data-tags="iac infrastructure as code cloud azure terraform bicep ansible repeatability idempotent">
+        <h2>Infrastructure as Code (IaC)</h2>
+        <div class="tags">
+          <span class="tag">repeatability</span><span class="tag">idempotent</span><span class="tag">reviewable</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Treat infrastructure like application code—versioned, reviewed, tested, and promoted through environments via pipelines.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>IaC improves consistency and speed by describing infra declaratively (what) or imperatively (how). Store it in Git, run through CI/CD, and validate with tests and policy-as-code before applying changes.</p>
+          <ul>
+            <li><strong>Patterns:</strong> immutable infra, drift detection, environment parity, modules for reuse, and policy guardrails.</li>
+            <li><strong>Anti-patterns:</strong> manual hotfixes in portals, snowflake servers, copying code between repos instead of modules.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- CARD: Terraform -->
+      <article class="card" data-tags="terraform iac hcl azure azurerm modules state plan apply policy pipeline">
+        <h2>Terraform</h2>
+        <div class="tags">
+          <span class="tag">HCL</span><span class="tag">modules</span><span class="tag">state</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> A declarative IaC tool using HCL; plan changes, review in PRs, then apply via pipelines with remote state and policies.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Use <code>terraform plan</code> to preview changes and <code>apply</code> to execute. Keep state remote (e.g., Azure Storage + lock with Azure Table/Blob or Terraform Cloud). Encapsulate patterns with versioned modules.</p>
+          <pre><code># Minimal Azure Resource Group
+terraform {
+  required_providers { azurerm = { source = "hashicorp/azurerm", version = ">= 3.0" } }
+}
+provider "azurerm" { features {} }
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-demo"
+  location = "westeurope"
+}
+</code></pre>
+          <ul>
+            <li>Validate with <code>terraform validate</code> + <code>tflint</code>; secure with policy (OPA/Conftest, Sentinel, or Azure Policy).</li>
+            <li>Structure repos with <em>environments</em> and <em>modules</em>; avoid copy-paste by publishing modules.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- CARD: Bicep -->
+      <article class="card" data-tags="bicep azure arm templates declarative modules what-if">
+        <h2>Azure Bicep</h2>
+        <div class="tags">
+          <span class="tag">Azure</span><span class="tag">ARM</span><span class="tag">modules</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> A concise DSL for Azure resources that compiles to ARM—great for Azure-first teams with native tooling.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Author resources with type-safe IntelliSense, reuse with modules, and preview changes using <code>what-if</code> before <code>deploy</code>.</p>
+          <pre><code>// storage.bicep
+resource stg 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+  name: 'stgdemotldr'
+  location: 'westeurope'
+  sku: { name: 'Standard_LRS' }
+  kind: 'StorageV2'
+}
+</code></pre>
+          <ul>
+            <li>Best with Azure DevOps or GitHub Actions; enforce with Azure Policy and RBAC scoping.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- CARD: Ansible -->
+      <article class="card" data-tags="ansible configuration management yaml playbook idempotent ssh azure vm">
+        <h2>Ansible</h2>
+        <div class="tags">
+          <span class="tag">config mgmt</span><span class="tag">YAML</span><span class="tag">idempotent</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Agentless configuration management & orchestration—describe desired state; Ansible ensures it.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Great for VM and middleware configuration, ad‑hoc ops, and app deployment. Works alongside Terraform/Bicep: provision first, then configure.</p>
+          <pre><code>---
+- hosts: web
+  become: true
+  tasks:
+    - name: Ensure NGINX is installed
+      apt: { name: nginx, state: present, update_cache: yes }
+</code></pre>
+        </details>
+      </article>
+
+      <!-- CARD: CI/CD -->
+      <article class="card" data-tags="cicd pipelines gitlab azure devops github actions runners agents trunk-based testing gates">
+        <h2>CI/CD Pipelines</h2>
+        <div class="tags">
+          <span class="tag">testing</span><span class="tag">runners</span><span class="tag">gates</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Automate build, test, security scans, and promotion. Every change flows through the same gates.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Prefer trunk-based development with short-lived branches. Use reusable pipeline templates and environment-specific variables and identities.</p>
+          <pre><code># GitLab CI example for Terraform
+stages: [fmt, validate, plan, apply]
+
+fmt:
+  stage: fmt
+  script: terraform fmt -check -recursive
+
+validate:
+  stage: validate
+  script: |
+    terraform init -backend-config=backend.hcl
+    terraform validate
+
+plan:
+  stage: plan
+  script: terraform plan -out tf.plan
+  artifacts:
+    paths: [tf.plan]
+
+apply:
+  stage: apply
+  when: manual
+  script: terraform apply -auto-approve tf.plan
+</code></pre>
+        </details>
+      </article>
+
+      <!-- CARD: Secrets & Policy -->
+      <article class="card" data-tags="security secrets vault key vault opa policy governance least privilege">
+        <h2>Secrets & Policy</h2>
+        <div class="tags">
+          <span class="tag">Vault</span><span class="tag">Key Vault</span><span class="tag">OPA</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Keep secrets out of repos; inject just‑in‑time via identity. Enforce platform guardrails with policy‑as‑code.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li><strong>Secrets:</strong> use cloud KMS (Azure Key Vault) or Vault; bind via OIDC/workload identity, never long‑lived keys.</li>
+            <li><strong>Policy:</strong> validate IaC with OPA/Conftest or native policies; stop drift and non‑compliant resources.</li>
+          </ul>
+        </details>
+      </article>
+      <!-- DEVOPS: Observability & Telemetry -->
+      <article class="card" data-tags="observability logging tracing metrics monitoring alerts slos slis apm">
+        <h2>Observability & Telemetry</h2>
+        <div class="tags">
+          <span class="tag">metrics</span><span class="tag">logs</span><span class="tag">traces</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Measure what matters. Use metrics, logs, and traces to understand behaviors and catch issues early with actionable alerts and SLOs.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li><strong>Three pillars:</strong> metrics (quantitative), logs (context), traces (causality across services).</li>
+            <li><strong>Outcomes:</strong> faster MTTR, fewer pagers, better capacity planning.</li>
+            <li><strong>Practices:</strong> RED/USE methods, meaningful alerting, runbooks, SLOs & error budgets.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- DEVOPS: SRE -->
+      <article class="card" data-tags="sre reliability error budgets slos automation toil blameless incident postmortem oncall">
+        <h2>Site Reliability Engineering (SRE)</h2>
+        <div class="tags">
+          <span class="tag">SLOs</span><span class="tag">error budgets</span><span class="tag">toil</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Engineer reliability with SLOs and error budgets; automate repetitive toil and learn from incidents via blameless postmortems.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li><strong>Plan:</strong> pick user-centric SLI/SLOs; track error-budget burn.</li>
+            <li><strong>Operate:</strong> lightweight change management, progressive delivery, runbooks.</li>
+            <li><strong>Improve:</strong> incident reviews → actions → reduce repeat failures.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- DEVOPS: Continuous Testing -->
+      <article class="card" data-tags="testing shift-left unit integration e2e performance security contract test pyramid quality gates">
+        <h2>Continuous Testing</h2>
+        <div class="tags">
+          <span class="tag">shift-left</span><span class="tag">automation</span><span class="tag">quality</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Test early and often: unit → integration → e2e. Automate performance, security, and contract tests in CI.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li><strong>Pyramid:</strong> many fast unit tests; fewer, broader e2e. Keep flake low.</li>
+            <li><strong>Gates:</strong> coverage thresholds, SAST/DAST, SBOM, dependency checks.</li>
+            <li><strong>Data:</strong> ephemeral envs & seeded test data; mock external services.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- DEVOPS: Release Strategies -->
+      <article class="card" data-tags="release deployment canary blue-green feature flags ring progressive rollback dark launch">
+        <h2>Release Strategies</h2>
+        <div class="tags">
+          <span class="tag">canary</span><span class="tag">blue‑green</span><span class="tag">feature flags</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Reduce risk with progressive delivery—route a slice of traffic first; promote on healthy signals; instant rollback on regressions.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li><strong>Patterns:</strong> blue‑green, canary, rings, dark launches, A/B.</li>
+            <li><strong>Signals:</strong> error rate, latency, business KPIs, user feedback.</li>
+            <li><strong>Flags:</strong> decouple deploy from release; kill switches.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- DEVOPS: Value Stream Mapping -->
+      <article class="card" data-tags="vsm flow bottlenecks lead time wip throughput continuous improvement lean">
+        <h2>Value Stream Mapping</h2>
+        <div class="tags">
+          <span class="tag">flow</span><span class="tag">lead time</span><span class="tag">bottlenecks</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Visualize the path from idea → production; expose wait states and rework; fix the biggest constraint first.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Track <em>lead time</em>, <em>deployment frequency</em>, <em>change fail %</em>, <em>MTTR</em>.</li>
+            <li>Make work visible; limit WIP; measure again after changes.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- DEVOPS: Platform Engineering -->
+      <article class="card" data-tags="platform engineering idp golden path self-service developer experience paved road product thinking">
+        <h2>Platform Engineering</h2>
+        <div class="tags">
+          <span class="tag">IDP</span><span class="tag">golden paths</span><span class="tag">DX</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Provide self‑service, secure paved roads (golden paths) so teams ship fast without reinventing the wheel.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li><strong>Product mindset:</strong> platform = product; devs = customers.</li>
+            <li><strong>Capabilities:</strong> templates, pipelines, environments, guardrails, docs.</li>
+            <li><strong>Outcome:</strong> reduced cognitive load, higher flow efficiency.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- DEVOPS: Chaos Engineering -->
+      <article class="card" data-tags="chaos reliability game days fault injection resilience hypothesis slo recovery">
+        <h2>Chaos Engineering</h2>
+        <div class="tags">
+          <span class="tag">resilience</span><span class="tag">game days</span><span class="tag">recovery</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Intentionally inject failure in controlled ways to validate resilience and improve recovery procedures.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Start with a hypothesis tied to an SLO; scope small; automate experiments.</li>
+            <li>Practice incident response via game days; capture learnings and fixes.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- AGILE: Scrum Framework -->
+      <article class="card" data-tags="agile scrum sprint backlog review retro planning roles events artifacts">
+        <h2>Scrum Framework</h2>
+        <div class="tags">
+          <span class="tag">sprints</span><span class="tag">events</span><span class="tag">artifacts</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Deliver in short iterations using defined roles, events, and artifacts to maximize transparency and feedback.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Key events: planning, daily scrum, review, retro.</li>
+            <li>Artifacts: product backlog, sprint backlog, increment; DoD for quality.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- AGILE: Kanban -->
+      <article class="card" data-tags="agile kanban wip flow cycle time throughput queues">
+        <h2>Kanban</h2>
+        <div class="tags">
+          <span class="tag">visualize work</span><span class="tag">limit WIP</span><span class="tag">flow</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Visualize work, limit WIP, and continuously optimize flow to shorten cycle time.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Policies explicit; manage queues and aging WIP; measure flow metrics.</li>
+            <li>Great for ops/support and mixed-mode teams.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- AGILE: Agile Manifesto -->
+      <article class="card" data-tags="agile manifesto values principles collaboration change customer value">
+        <h2>Agile Manifesto</h2>
+        <div class="tags">
+          <span class="tag">values</span><span class="tag">principles</span><span class="tag">mindset</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Favor individuals & interactions, working software, customer collaboration, and responding to change.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Use the values as decision filters; ship small increments; tight feedback loops with customers.</p>
+        </details>
+      </article>
+
+      <!-- AGILE: Backlog Refinement -->
+      <article class="card" data-tags="agile backlog refinement ordering estimation slicing prioritization value">
+        <h2>Backlog Refinement</h2>
+        <div class="tags">
+          <span class="tag">prioritize</span><span class="tag">slice</span><span class="tag">ready</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Keep work small, clear, and valuable; continuously order by outcome and readiness.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Slice by value and risk; acceptance criteria clear; add definition of ready.</li>
+            <li>Use WSJF or cost of delay if helpful; avoid over-specifying early.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- AGILE: Definition of Done -->
+      <article class="card" data-tags="agile definition of done dod quality acceptance criteria standards sign-off">
+        <h2>Definition of Done (DoD)</h2>
+        <div class="tags">
+          <span class="tag">quality</span><span class="tag">consistency</span><span class="tag">completeness</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Team-wide checklist for quality and completeness—code, tests, security, docs, and deployed.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Automate checks in CI where possible (tests, coverage, lint, SBOM); keep it visible and evolving.</p>
+        </details>
+      </article>
+
+      <!-- AGILE: User Stories & Story Mapping -->
+      <article class="card" data-tags="agile user stories story mapping personas journey value outcomes acceptance criteria">
+        <h2>User Stories & Story Mapping</h2>
+        <div class="tags">
+          <span class="tag">persona</span><span class="tag">journey</span><span class="tag">outcomes</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Capture user value in stories; map the journey to slice releases by outcomes, not components.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>INVEST stories; include acceptance criteria; prefer vertical slices.</li>
+            <li>Use mapping to plan MVP → subsequent releases.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- AGILE: Agile at Scale -->
+      <article class="card" data-tags="agile scale coordination safe less spotify dependencies cadence governance">
+        <h2>Agile at Scale</h2>
+        <div class="tags">
+          <span class="tag">coordination</span><span class="tag">cadence</span><span class="tag">governance</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Coordinate multiple teams with lightweight governance, shared cadences, and clear ownership; minimize dependencies.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Pick practices, not dogma—synchronization events, shared definitions, and platform capabilities to reduce coupling.</p>
+        </details>
+      </article>
+
+      <!-- ARCH: Microservices -->
+      <article class="card" data-tags="architecture microservices autonomy api contracts ci cd ownership deployability scalability">
+        <h2>Microservices</h2>
+        <div class="tags">
+          <span class="tag">autonomy</span><span class="tag">APIs</span><span class="tag">independent deploys</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Small, independently deployable services with clear contracts and ownership; optimize for change.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Prefer stable APIs; use consumer-driven contracts; keep data private.</li>
+            <li>Beware distributed complexity: tracing, consistency, and latency.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- ARCH: Event-Driven Architecture -->
+      <article class="card" data-tags="architecture eda events pubsub streaming async choreography kafka service bus">
+        <h2>Event‑Driven Architecture</h2>
+        <div class="tags">
+          <span class="tag">async</span><span class="tag">pub/sub</span><span class="tag">streams</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Emit events to decouple producers and consumers; scale and evolve without tight coupling.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Patterns: choreography vs orchestration; outbox; idempotency; replay.</li>
+            <li>Design events as facts; version explicitly; handle at-least-once delivery.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- ARCH: Domain-Driven Design -->
+      <article class="card" data-tags="architecture ddd bounded context ubiquitous language aggregates domain events">
+        <h2>Domain‑Driven Design (DDD)</h2>
+        <div class="tags">
+          <span class="tag">bounded contexts</span><span class="tag">language</span><span class="tag">aggregates</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Model software around business domains; align teams and services with bounded contexts and clear language.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Context maps reveal dependencies; prefer domain events over shared DBs.</li>
+            <li>Strategic design guides service boundaries and ownership.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- ARCH: Twelve-Factor -->
+      <article class="card" data-tags="architecture twelve-factor cloud-native config build release run stateless disposability logs admin">
+        <h2>Twelve‑Factor App</h2>
+        <div class="tags">
+          <span class="tag">cloud‑native</span><span class="tag">config</span><span class="tag">stateless</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Portable, scalable app practices: declare config, isolate dependencies, stateless processes, and dev/prod parity.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Great baseline for microservices and containers; extend with security and observability practices.</p>
+        </details>
+      </article>
+
+      <!-- ARCH: API Gateway & Integration Patterns -->
+      <article class="card" data-tags="architecture api gateway aggregation facade proxy security throttling transformation">
+        <h2>API Gateway & Integration Patterns</h2>
+        <div class="tags">
+          <span class="tag">gateway</span><span class="tag">facade</span><span class="tag">aggregator</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Centralize cross‑cutting concerns—routing, auth, quotas, transformation; keep services simple behind clean APIs.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Patterns: facade, proxy, aggregator, BFF (backend‑for‑frontend).</li>
+            <li>Concerns: authentication, rate limiting, schema/version management.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- ARCH: Resiliency Patterns -->
+      <article class="card" data-tags="architecture resiliency reliability patterns circuit breaker retry backoff timeout bulkhead fallback idempotency">
+        <h2>Resiliency Patterns</h2>
+        <div class="tags">
+          <span class="tag">circuit breaker</span><span class="tag">retry</span><span class="tag">bulkhead</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Design for failure: timeouts, retries with backoff, circuit breakers, bulkheads, and graceful fallbacks.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <p>Balance resilience with user impact; add idempotency keys; test with chaos and traffic shaping.</p>
+        </details>
+      </article>
+
+      <!-- ARCH: Cloud Service Models -->
+      <article class="card" data-tags="architecture cloud iaas paas saas serverless containers responsibilities cost">
+        <h2>Cloud Service Models</h2>
+        <div class="tags">
+          <span class="tag">IaaS</span><span class="tag">PaaS</span><span class="tag">SaaS</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Choose the right abstraction (IaaS/PaaS/SaaS/Serverless) to optimize speed, control, and cost.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Trade control vs velocity; understand shared responsibility.</li>
+            <li>Prefer managed services where undifferentiated heavy lifting exists.</li>
+          </ul>
+        </details>
+      </article>
+
+      <!-- ARCH: Zero Trust -->
+      <article class="card" data-tags="architecture security zero trust identity mfa least privilege policy continuous verification microsegmentation">
+        <h2>Zero Trust Architecture</h2>
+        <div class="tags">
+          <span class="tag">identity‑first</span><span class="tag">least privilege</span><span class="tag">policy</span>
+        </div>
+        <p class="tldr"><strong>TL;DR:</strong> Never trust, always verify—authenticate and authorize every request with strong identity and continuous evaluation.</p>
+        <details>
+          <summary>Read the deep dive</summary>
+          <ul>
+            <li>Short‑lived credentials, OIDC/OAuth, device posture, micro‑segmentation.</li>
+            <li>Integrate policy‑as‑code and runtime authorization (ABAC/RBAC).</li>
+          </ul>
+        </details>
+      </article>
+
+
+    </div>
+  </main>
+
+  <footer>
+  </footer>
+
+  <script>
+    // --- Simple search & expand/collapse ---
+    const q = document.getElementById('q');
+    const cards = [...document.querySelectorAll('.card')];
+    const expandAllBtn = document.getElementById('expandAll');
+    const collapseAllBtn = document.getElementById('collapseAll');
+
+    function match(text, needle) {
+      return text.toLowerCase().includes(needle.toLowerCase());
+    }
+
+    function filter() {
+      const needle = q.value.trim();
+      if (!needle) { cards.forEach(c => c.style.display = ''); return; }
+      cards.forEach(c => {
+        const text = (c.innerText + ' ' + (c.dataset.tags||'')).toLowerCase();
+        c.style.display = text.includes(needle.toLowerCase()) ? '' : 'none';
+      });
+    }
+
+    q.addEventListener('input', filter);
+
+    expandAllBtn.addEventListener('click', () => {
+      document.querySelectorAll('.card details').forEach(d => d.open = true);
+      expandAllBtn.setAttribute('aria-pressed', 'true');
+    });
+    collapseAllBtn.addEventListener('click', () => {
+      document.querySelectorAll('.card details').forEach(d => d.open = false);
+      expandAllBtn.setAttribute('aria-pressed', 'false');
+    });
+
+    // Keyboard shortcut: press "/" to focus search
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== q) {
+        e.preventDefault(); q.focus();
+      }
+    });
+  </script>
+</body>
+</html>
